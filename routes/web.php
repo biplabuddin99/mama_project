@@ -1,49 +1,52 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthenticationController as auth;
-use App\Http\Controllers\DashboardController as dash;
-use App\Http\Controllers\Settings\CompanyController as company;
-use App\Http\Controllers\Settings\UserController as user;
-use App\Http\Controllers\Settings\ProfileController as profile;
-use App\Http\Controllers\Settings\AdminUserController as admin;
-use App\Http\Controllers\Settings\Location\CountryController as country;
-use App\Http\Controllers\Settings\Location\DivisionController as division;
-use App\Http\Controllers\Settings\Location\DistrictController as district;
-use App\Http\Controllers\Settings\Location\UpazilaController as upazila;
-use App\Http\Controllers\Settings\Location\ThanaController as thana;
-use App\Http\Controllers\Products\CategoryController as category;
-use App\Http\Controllers\Products\SubcategoryController as subcat;
-use App\Http\Controllers\Products\ChildcategoryController as childcat;
-use App\Http\Controllers\Products\BrandController as brand;
-use App\Http\Controllers\Products\UnitController as unit;
-use App\Http\Controllers\Products\ProductController as product;
-use App\Http\Controllers\Suppliers\SupplierController as supplier;
-use App\Http\Controllers\Customers\CustomerController as customer;
-use App\Http\Controllers\Purchases\PurchaseController as purchase;
-use App\Http\Controllers\Sales\SalesController as sales;
-use App\Http\Controllers\Settings\BranchController as branch;
-use App\Http\Controllers\Settings\WarehouseController as warehouse;
-use App\Http\Controllers\Reports\ReportController as report;
-use App\Http\Controllers\Transfers\TransferController as transfer;
-use App\Http\Controllers\Currency\CurrencyController as currency;
-
-
-use App\Http\Controllers\Accounts\MasterAccountController as master;
-use App\Http\Controllers\Accounts\SubHeadController as sub_head;
-use App\Http\Controllers\Accounts\ChildOneController as child_one;
-use App\Http\Controllers\Accounts\ChildTwoController as child_two;
-use App\Http\Controllers\Accounts\NavigationHeadViewController as navigate;
-use App\Http\Controllers\Accounts\IncomeStatementController as statement;
-
-use App\Http\Controllers\Vouchers\CreditVoucherController as credit;
-use App\Http\Controllers\Vouchers\DebitVoucherController as debit;
-use App\Http\Controllers\Vouchers\JournalVoucherController as journal;
-/* Middleware */
 use App\Http\Middleware\isAdmin;
 use App\Http\Middleware\isOwner;
-use App\Http\Middleware\isSalesmanager;
 use App\Http\Middleware\isSalesman;
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\isSalesmanager;
+use App\Http\Controllers\DashboardController as dash;
+use App\Http\Controllers\Sales\SalesController as sales;
+use App\Http\Controllers\Products\UnitController as unit;
+use App\Http\Controllers\Settings\UserController as user;
+use App\Http\Controllers\AuthenticationController as auth;
+use App\Http\Controllers\Products\BrandController as brand;
+use App\Http\Controllers\Reports\ReportController as report;
+use App\Http\Controllers\Settings\BranchController as branch;
+use App\Http\Controllers\Products\ProductController as product;
+use App\Http\Controllers\Settings\AdminUserController as admin;
+use App\Http\Controllers\Settings\CompanyController as company;
+use App\Http\Controllers\Settings\ProfileController as profile;
+use App\Http\Controllers\Accounts\SubHeadController as sub_head;
+use App\Http\Controllers\Currency\CurrencyController as currency;
+use App\Http\Controllers\Products\CategoryController as category;
+use App\Http\Controllers\Accounts\ChildOneController as child_one;
+use App\Http\Controllers\Accounts\ChildTwoController as child_two;
+use App\Http\Controllers\Customers\CustomerController as customer;
+use App\Http\Controllers\Products\SubcategoryController as subcat;
+use App\Http\Controllers\Purchases\PurchaseController as purchase;
+use App\Http\Controllers\Suppliers\SupplierController as supplier;
+
+
+use App\Http\Controllers\Transfers\TransferController as transfer;
+use App\Http\Controllers\Vouchers\DebitVoucherController as debit;
+use App\Http\Controllers\Settings\WarehouseController as warehouse;
+use App\Http\Controllers\Accounts\MasterAccountController as master;
+use App\Http\Controllers\Settings\Location\ThanaController as thana;
+use App\Http\Controllers\Vouchers\CreditVoucherController as credit;
+
+use App\Http\Controllers\Products\ChildcategoryController as childcat;
+use App\Http\Controllers\Vouchers\JournalVoucherController as journal;
+use App\Http\Controllers\Settings\Location\CountryController as country;
+/* Middleware */
+use App\Http\Controllers\Settings\Location\UpazilaController as upazila;
+use App\Http\Controllers\Accounts\IncomeStatementController as statement;
+use App\Http\Controllers\Settings\Location\DistrictController as district;
+use App\Http\Controllers\Settings\Location\DivisionController as division;
+use App\Http\Controllers\Accounts\NavigationHeadViewController as navigate;
+
+//Cash
+use App\Http\Controllers\Cash\OwnerGaveController as ownergave;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +89,7 @@ Route::group(['middleware'=>isAdmin::class],function(){
         Route::resource('thana',thana::class,['as'=>'admin']);
         Route::resource('unit',unit::class,['as'=>'admin']);
         Route::resource('currency',currency::class,['as'=>'admin']);
-        
+
     });
 });
 
@@ -98,6 +101,10 @@ Route::group(['middleware'=>isOwner::class],function(){
         Route::resource('brand',brand::class,['as'=>'owner']);
         Route::resource('branch',branch::class,['as'=>'owner']);
         Route::resource('warehouse',warehouse::class,['as'=>'owner']);
+        Route::resource('currency',currency::class,['as'=>'owner']);
+
+        //cash
+        Route::resource('owner_gave',ownergave::class,['as'=>'owner']);
 
         //Owner profile
         Route::get('/profile', [profile::class,'ownerProfile'])->name('owner.profile');
@@ -107,14 +114,14 @@ Route::group(['middleware'=>isOwner::class],function(){
         //Supplier and Customer
         Route::resource('supplier',supplier::class,['as'=>'owner']);
         Route::resource('customer',customer::class,['as'=>'owner']);
-        
+
 
         //report
         Route::get('/preport',[report::class,'preport'])->name('owner.preport');
         Route::get('/sreport',[report::class,'stockreport'])->name('owner.sreport');
         Route::get('/salreport',[report::class,'salesReport'])->name('owner.salreport');
-        
-        
+
+
 
         //Product
         Route::resource('category',category::class,['as'=>'owner']);
@@ -125,7 +132,7 @@ Route::group(['middleware'=>isOwner::class],function(){
         Route::get('/qrcodepreview',[product::class,'qrcodepreview'])->name('owner.qrcodepreview');
         Route::get('/barcodepreview',[product::class,'barcodepreview'])->name('owner.barcodepreview');
         Route::get('/labelprint',[product::class,'labelprint'])->name('owner.labelprint');
-        
+
 
         //Accounts
         Route::resource('master',master::class,['as'=>'owner']);
@@ -164,14 +171,14 @@ Route::group(['middleware'=>isOwner::class],function(){
 Route::group(['middleware'=>isSalesmanager::class],function(){
     Route::prefix('salesmanager')->group(function(){
         Route::get('/dashboard', [dash::class,'salesmanagerDashboard'])->name('salesmanager.dashboard');
-        
+
     });
 });
 
 Route::group(['middleware'=>isSalesman::class],function(){
     Route::prefix('salesman')->group(function(){
         Route::get('/dashboard', [dash::class,'salesmanDashboard'])->name('salesman.dashboard');
-        
+
     });
 });
 
