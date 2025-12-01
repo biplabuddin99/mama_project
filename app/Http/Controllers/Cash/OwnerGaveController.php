@@ -5,10 +5,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Cash\OwnerGave;
 use Exception;
 use Illuminate\Http\Request;
+use App\Http\Traits\ResponseTrait;
 
 class OwnerGaveController extends Controller
 {
 
+    use ResponseTrait;
     public function index()
     {
         $ownergaves = OwnerGave::where(company())->paginate(10);
