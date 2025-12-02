@@ -5,6 +5,7 @@ use App\Http\Middleware\isOwner;
 use App\Http\Middleware\isSalesman;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\isSalesmanager;
+use App\Http\Controllers\Cash\VisaController;
 use App\Http\Controllers\DashboardController as dash;
 use App\Http\Controllers\Sales\SalesController as sales;
 use App\Http\Controllers\Products\UnitController as unit;
@@ -13,6 +14,7 @@ use App\Http\Controllers\AuthenticationController as auth;
 use App\Http\Controllers\Products\BrandController as brand;
 use App\Http\Controllers\Reports\ReportController as report;
 use App\Http\Controllers\Settings\BranchController as branch;
+use App\Http\Controllers\Cash\OwnerGaveController as ownergave;
 use App\Http\Controllers\Products\ProductController as product;
 use App\Http\Controllers\Settings\AdminUserController as admin;
 use App\Http\Controllers\Settings\CompanyController as company;
@@ -24,29 +26,28 @@ use App\Http\Controllers\Accounts\ChildOneController as child_one;
 use App\Http\Controllers\Accounts\ChildTwoController as child_two;
 use App\Http\Controllers\Customers\CustomerController as customer;
 use App\Http\Controllers\Products\SubcategoryController as subcat;
+
+
 use App\Http\Controllers\Purchases\PurchaseController as purchase;
 use App\Http\Controllers\Suppliers\SupplierController as supplier;
-
-
 use App\Http\Controllers\Transfers\TransferController as transfer;
 use App\Http\Controllers\Vouchers\DebitVoucherController as debit;
 use App\Http\Controllers\Settings\WarehouseController as warehouse;
 use App\Http\Controllers\Accounts\MasterAccountController as master;
+
 use App\Http\Controllers\Settings\Location\ThanaController as thana;
 use App\Http\Controllers\Vouchers\CreditVoucherController as credit;
-
 use App\Http\Controllers\Products\ChildcategoryController as childcat;
+/* Middleware */
 use App\Http\Controllers\Vouchers\JournalVoucherController as journal;
 use App\Http\Controllers\Settings\Location\CountryController as country;
-/* Middleware */
 use App\Http\Controllers\Settings\Location\UpazilaController as upazila;
 use App\Http\Controllers\Accounts\IncomeStatementController as statement;
 use App\Http\Controllers\Settings\Location\DistrictController as district;
-use App\Http\Controllers\Settings\Location\DivisionController as division;
-use App\Http\Controllers\Accounts\NavigationHeadViewController as navigate;
 
 //Cash
-use App\Http\Controllers\Cash\OwnerGaveController as ownergave;
+use App\Http\Controllers\Settings\Location\DivisionController as division;
+use App\Http\Controllers\Accounts\NavigationHeadViewController as navigate;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,7 @@ Route::group(['middleware'=>isOwner::class],function(){
 
         //cash
         Route::resource('owner_gave',ownergave::class,['as'=>'owner']);
+        Route::resource('visas',VisaController::class,['as'=>'owner']);
 
         //Owner profile
         Route::get('/profile', [profile::class,'ownerProfile'])->name('owner.profile');

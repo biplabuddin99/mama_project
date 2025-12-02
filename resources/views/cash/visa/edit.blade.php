@@ -1,6 +1,6 @@
 @extends('layout.app')
 
-@section('pageTitle', trans('Update Owner Gave'))
+@section('pageTitle', trans('Update Visa'))
 @section('pageSubTitle', trans('Update'))
 
 @section('content')
@@ -12,16 +12,16 @@
                     <div class="card-content">
                         <div class="card-body">
                             <form class="form" method="post"
-                                action="{{ route(currentUser() . '.owner_gave.update', encryptor('encrypt', $ownergave->id)) }}">
+                                action="{{ route(currentUser() . '.visas.update', encryptor('encrypt', $visa->id)) }}">
                                 @csrf
                                 @method('patch')
-                                <input type="hidden" name="uptoken" value="{{ encryptor('encrypt', $ownergave->id) }}">
+                                <input type="hidden" name="uptoken" value="{{ encryptor('encrypt', $visa->id) }}">
                                 <div class="row">
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="amount">{{ __('Amount') }}</label>
                                             <input type="number" step="0.0001" class="form-control" placeholder="Amount"
-                                                value="{{ old('amount', $ownergave->amount) }}" name="amount">
+                                                value="{{ old('amount', $visa->amount) }}" name="amount">
                                         </div>
                                         @if ($errors->has('amount'))
                                             <span class="text-danger"> {{ $errors->first('amount') }}</span>
@@ -30,7 +30,7 @@
                                     <div class="col-md-6 col-12">
                                         <div class="form-group">
                                             <label for="remarks">{{ __('Remarks') }}</label>
-                                            <textarea class="form-control" id="remarks" placeholder="Remarks" name="remarks">{{ old('remarks', $ownergave->remarks) }}</textarea>
+                                            <textarea class="form-control" id="remarks" placeholder="Remarks" name="remarks">{{ old('remarks', $visa->remarks) }}</textarea>
                                         </div>
                                     </div>
 
