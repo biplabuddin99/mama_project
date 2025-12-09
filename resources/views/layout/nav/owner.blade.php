@@ -54,6 +54,12 @@
                     <li class="py-1 submenu-item"><a href="{{route(currentUser().'.visas.create')}}">{{__('Add New')}}</a></li>
                 </ul>
             </li>
+            <li class="submenu-item sidebar-item has-sub"><a href="#" class='sidebar-link'>{{__('Credits')}}</a>
+                <ul class="submenu">
+                    <li class="py-1 submenu-item"><a href="{{route(currentUser().'.credits.index')}}">{{__('List')}}</a></li>
+                    <li class="py-1 submenu-item"><a href="{{route(currentUser().'.credits.create')}}">{{__('Add New')}}</a></li>
+                </ul>
+            </li>
             {{-- <li class="submenu-item sidebar-item has-sub"><a href="#" class='sidebar-link'>{{__('Child Category')}}</a>
                 <ul class="submenu">
                     <li class="py-1 submenu-item"><a href="{{route(currentUser().'.childcategory.index')}}">{{__('List')}}</a></li>
