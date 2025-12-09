@@ -21,16 +21,16 @@
                                         <div class="form-group">
                                             <label for="Select Type">{{ __('Select Type') }}<span
                                                     class="text-danger">*</span></label>
-                                            <select class="form-control form-select"
-                                                name="status" id="">
-                                                <option value="">Select Type</option>
-                                                <option value="Cash">Cash</option>
-                                                <option value="Company">Company</option>
-                                                <option value="Visa">Visa</option>
-                                                <option value="Credit">Credit</option>
-                                                <option value="NetSell">Net.Sell</option>
-                                                <option value="Extra">Extra</option>
-                                            </select>
+<select class="form-control form-select" name="status" id="">
+    <option value="">Select Type</option>
+    <option value="Cash" {{ $credit->status == 'Cash' ? 'selected' : '' }}>Cash</option>
+    <option value="Company" {{ $credit->status == 'Company' ? 'selected' : '' }}>Company</option>
+    <option value="Visa" {{ $credit->status == 'Visa' ? 'selected' : '' }}>Visa</option>
+    <option value="Credit" {{ $credit->status == 'Credit' ? 'selected' : '' }}>Credit</option>
+    <option value="NetSell" {{ $credit->status == 'NetSell' ? 'selected' : '' }}>Net.Sell</option>
+    <option value="Extra" {{ $credit->status == 'Extra' ? 'selected' : '' }}>Extra</option>
+</select>
+
                                             @if ($errors->has('status'))
                                                 <span class="text-danger"> {{ $errors->first('status') }}</span>
                                             @endif

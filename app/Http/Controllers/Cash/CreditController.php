@@ -43,6 +43,7 @@ class CreditController extends Controller
                 try {
             $b             = new Credit;
             $b->amount     = $request->amount;
+            $b->status     = $request->status;
             $b->remarks    = $request->remarks;
             $b->created_by = currentUserId();
             $b->company_id = company()['company_id'];
@@ -93,6 +94,7 @@ class CreditController extends Controller
                     try {
             $owner             = Credit::findOrFail(encryptor('decrypt', $id));
             $owner->amount     = $request->amount;
+            $owner->status     = $request->status;
             $owner->remarks    = $request->remarks;
             $owner->updated_by = currentUserId();
             $owner->company_id = company()['company_id'];
